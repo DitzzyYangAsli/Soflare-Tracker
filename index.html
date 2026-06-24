@@ -13,9 +13,9 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #1a1a2e);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: linear-gradient(-45deg, #0a0e27, #1a1a4e, #2d1b5e, #1a1a3e, #0f2f5f);
+            background-size: 500% 500%;
+            animation: gradientShift 20s ease infinite;
             min-height: 100vh;
             padding: 20px;
             position: relative;
@@ -26,60 +26,131 @@
             0% {
                 background-position: 0% 50%;
             }
+            25% {
+                background-position: 50% 0%;
+            }
             50% {
                 background-position: 100% 50%;
+            }
+            75% {
+                background-position: 50% 100%;
             }
             100% {
                 background-position: 0% 50%;
             }
         }
 
+        /* Animated orbs in background */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #6366f1, transparent);
+            top: -100px;
+            right: -100px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, #a855f7, transparent);
+            bottom: -50px;
+            left: -100px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, #3b82f6, transparent);
+            top: 50%;
+            right: -150px;
+            animation: float 22s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(50px, -50px);
+            }
+            50% {
+                transform: translate(0, -100px);
+            }
+            75% {
+                transform: translate(-50px, -50px);
+            }
+        }
+
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             position: relative;
+            z-index: 10;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: rgba(20, 25, 50, 0.4);
+            border-radius: 12px;
+            border: 1px solid rgba(100, 150, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         .header h1 {
-            font-size: 2.5em;
-            color: #e0e0e0;
-            margin-bottom: 5px;
-            font-weight: 600;
-            letter-spacing: 2px;
+            font-size: 3em;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 3px;
         }
 
         .header-subtitle {
-            font-size: 1em;
-            color: #999;
+            font-size: 1.1em;
+            color: rgba(150, 150, 220, 0.8);
+            font-weight: 300;
+            letter-spacing: 1px;
         }
 
         /* Form Section */
         .form-section {
-            background: rgba(30, 40, 60, 0.7);
-            border: 1px solid rgba(150, 150, 200, 0.3);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
+            background: rgba(20, 25, 50, 0.5);
+            border: 1px solid rgba(100, 150, 255, 0.25);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .form-title {
-            color: #e0e0e0;
-            font-size: 1.1em;
-            margin-bottom: 15px;
+            color: rgba(150, 150, 220, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 20px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .form-group {
             display: grid;
             grid-template-columns: 1fr 1fr auto;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
         @media (max-width: 768px) {
@@ -89,206 +160,219 @@
         }
 
         .input-field {
-            background: rgba(20, 30, 50, 0.8);
-            border: 1px solid rgba(150, 150, 200, 0.4);
-            border-radius: 6px;
-            padding: 10px 12px;
-            color: #e0e0e0;
+            background: rgba(15, 20, 40, 0.7);
+            border: 1.5px solid rgba(100, 150, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 14px;
+            color: #e0e0f0;
             font-size: 0.95em;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         .input-field:focus {
             outline: none;
-            border-color: rgba(150, 150, 200, 0.7);
-            background: rgba(20, 30, 50, 0.95);
+            border-color: rgba(100, 180, 255, 0.6);
+            background: rgba(15, 20, 40, 0.9);
+            box-shadow: 0 0 12px rgba(100, 150, 255, 0.2);
         }
 
         .input-field::placeholder {
-            color: rgba(150, 150, 200, 0.5);
+            color: rgba(150, 150, 200, 0.4);
         }
 
         .btn {
-            background: rgba(100, 150, 200, 0.8);
-            border: 1px solid rgba(150, 150, 200, 0.5);
-            padding: 10px 20px;
-            border-radius: 6px;
+            background: linear-gradient(135deg, rgba(100, 150, 255, 0.8), rgba(150, 120, 255, 0.8));
+            border: 1px solid rgba(150, 150, 255, 0.5);
+            padding: 12px 24px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            color: #e0e0e0;
-            transition: all 0.2s ease;
+            color: #e0e0f0;
+            transition: all 0.3s ease;
             font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .btn:hover {
-            background: rgba(100, 150, 200, 1);
-            border-color: rgba(150, 150, 200, 0.8);
+            background: linear-gradient(135deg, rgba(100, 180, 255, 1), rgba(180, 120, 255, 1));
+            box-shadow: 0 0 20px rgba(100, 150, 255, 0.4);
+            border-color: rgba(180, 180, 255, 0.7);
         }
 
         /* Members Section */
         .members-section {
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .section-title {
-            color: #e0e0e0;
-            font-size: 1.1em;
-            margin-bottom: 15px;
+            color: rgba(150, 150, 220, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 20px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .members-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
         }
 
         /* Member Card */
         .member-card {
-            background: rgba(30, 40, 60, 0.7);
-            border: 1px solid rgba(150, 150, 200, 0.3);
-            border-radius: 8px;
-            padding: 18px;
-            transition: all 0.2s ease;
+            background: rgba(20, 25, 50, 0.5);
+            border: 1.5px solid rgba(100, 150, 255, 0.25);
+            border-radius: 12px;
+            padding: 22px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .member-card:hover {
-            border-color: rgba(150, 150, 200, 0.6);
-            background: rgba(30, 40, 60, 0.9);
+            border-color: rgba(100, 180, 255, 0.5);
+            background: rgba(20, 25, 50, 0.7);
+            box-shadow: 0 12px 40px rgba(100, 150, 255, 0.15);
+            transform: translateY(-2px);
         }
 
         .member-name {
-            color: #e0e0e0;
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 12px;
+            color: rgba(180, 180, 220, 0.95);
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
         }
 
         .strike-display {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 14px;
+            margin-bottom: 14px;
         }
 
         .strike-count {
-            font-size: 2em;
-            font-weight: bold;
-            padding: 8px 16px;
-            border-radius: 6px;
-            min-width: 70px;
+            font-size: 2.2em;
+            font-weight: 900;
+            padding: 0;
+            min-width: 60px;
             text-align: center;
         }
 
         .strike-count.level-0 {
-            background: rgba(100, 200, 100, 0.3);
-            color: #90ee90;
+            color: #4ade80;
+            text-shadow: 0 0 12px rgba(74, 222, 128, 0.5);
         }
 
         .strike-count.level-1 {
-            background: rgba(200, 200, 200, 0.3);
-            color: #d0d0d0;
+            color: #e0e0e0;
+            text-shadow: 0 0 8px rgba(200, 200, 200, 0.3);
         }
 
         .strike-count.level-2 {
-            background: rgba(255, 120, 100, 0.3);
-            color: #ff8070;
+            color: #ff8c42;
+            text-shadow: 0 0 12px rgba(255, 140, 66, 0.5);
         }
 
         .strike-count.level-3 {
-            background: rgba(180, 50, 50, 0.3);
-            color: #ff6b6b;
+            color: #ff4444;
+            text-shadow: 0 0 12px rgba(255, 68, 68, 0.5);
         }
 
         .strike-count.level-4 {
-            background: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border: 2px solid rgba(200, 200, 200, 0.5);
+            color: #ff0000;
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+            border: 2px solid rgba(255, 200, 200, 0.4);
+            padding: 4px 12px;
+            border-radius: 6px;
         }
 
         .strike-label {
-            color: #999;
+            color: rgba(150, 150, 200, 0.7);
             font-size: 0.9em;
+            font-weight: 500;
         }
 
         /* Status */
         .status {
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 10px 14px;
+            border-radius: 8px;
             text-align: center;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             font-size: 0.9em;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .status.safe {
-            background: rgba(100, 200, 100, 0.2);
-            color: #90ee90;
-            border: 1px solid rgba(100, 200, 100, 0.4);
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.3);
         }
 
         .status.warning {
-            background: rgba(255, 180, 80, 0.2);
-            color: #ffb050;
-            border: 1px solid rgba(255, 180, 80, 0.4);
+            background: rgba(255, 140, 66, 0.15);
+            color: #ff8c42;
+            border: 1px solid rgba(255, 140, 66, 0.3);
         }
 
         .status.danger {
-            background: rgba(255, 100, 100, 0.2);
-            color: #ff6b6b;
-            border: 1px solid rgba(255, 100, 100, 0.4);
+            background: rgba(255, 68, 68, 0.15);
+            color: #ff4444;
+            border: 1px solid rgba(255, 68, 68, 0.3);
         }
 
         .status.voting {
-            background: rgba(200, 150, 80, 0.2);
+            background: rgba(200, 150, 80, 0.15);
             color: #ffb050;
-            border: 1px solid rgba(200, 150, 80, 0.4);
+            border: 1px solid rgba(200, 150, 80, 0.3);
         }
 
         .status.mercy {
-            background: rgba(150, 100, 200, 0.2);
-            color: #da70d6;
-            border: 1px solid rgba(150, 100, 200, 0.4);
+            background: rgba(168, 85, 247, 0.15);
+            color: #d8b4fe;
+            border: 1px solid rgba(168, 85, 247, 0.3);
         }
 
         .status.banished {
-            background: rgba(200, 50, 50, 0.2);
+            background: rgba(255, 0, 0, 0.15);
             color: #ff6b6b;
-            border: 1px solid rgba(200, 50, 50, 0.4);
+            border: 1px solid rgba(255, 0, 0, 0.3);
         }
 
         .rules-broken {
-            color: #b0b0b0;
+            color: rgba(180, 180, 200, 0.8);
             font-size: 0.85em;
-            margin-bottom: 12px;
-            max-height: 60px;
+            margin-bottom: 14px;
+            max-height: 80px;
             overflow-y: auto;
         }
 
         .rule-item {
-            background: rgba(150, 150, 200, 0.15);
-            padding: 5px 10px;
-            border-radius: 4px;
-            margin: 4px 0;
-            border-left: 2px solid rgba(150, 150, 200, 0.5);
+            background: rgba(100, 150, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin: 5px 0;
+            border-left: 3px solid rgba(100, 180, 255, 0.5);
         }
 
         /* Penalty Toggle */
         .penalty-toggle {
             display: flex;
             gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .toggle-btn {
             flex: 1;
-            padding: 8px 10px;
-            border: 1px solid rgba(150, 150, 200, 0.4);
-            background: rgba(50, 70, 100, 0.5);
-            color: #b0b0b0;
-            border-radius: 6px;
+            padding: 9px 12px;
+            border: 1.5px solid rgba(100, 150, 255, 0.3);
+            background: rgba(40, 50, 80, 0.6);
+            color: rgba(180, 180, 220, 0.7);
+            border-radius: 7px;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.8em;
@@ -298,62 +382,66 @@
         }
 
         .toggle-btn.active {
-            background: rgba(100, 150, 200, 0.8);
-            color: #e0e0e0;
-            border-color: rgba(150, 150, 200, 0.7);
+            background: linear-gradient(135deg, rgba(100, 150, 255, 0.6), rgba(150, 120, 255, 0.6));
+            color: #e0e0f0;
+            border-color: rgba(150, 180, 255, 0.6);
+            box-shadow: 0 0 10px rgba(100, 150, 255, 0.3);
         }
 
         .toggle-btn:hover {
-            border-color: rgba(150, 150, 200, 0.6);
+            border-color: rgba(150, 180, 255, 0.5);
+            background: rgba(60, 70, 100, 0.7);
         }
 
         /* Card Actions */
         .card-actions {
             display: flex;
             gap: 8px;
-            margin-top: 12px;
+            margin-top: 14px;
         }
 
         .btn-small {
             flex: 1;
-            background: rgba(50, 70, 100, 0.6);
-            border: 1px solid rgba(150, 150, 200, 0.3);
-            color: #b0b0b0;
-            padding: 8px 10px;
-            border-radius: 6px;
+            background: rgba(60, 80, 120, 0.5);
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            color: rgba(180, 180, 220, 0.8);
+            padding: 9px 12px;
+            border-radius: 7px;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.8em;
             transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-small:hover {
-            background: rgba(100, 150, 200, 0.6);
-            border-color: rgba(150, 150, 200, 0.6);
-            color: #e0e0e0;
+            background: rgba(100, 150, 255, 0.4);
+            border-color: rgba(150, 180, 255, 0.6);
+            color: #e0e0f0;
         }
 
         .btn-small:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
         }
 
         .btn-delete {
-            background: rgba(150, 50, 50, 0.4);
-            border-color: rgba(200, 100, 100, 0.4);
-            color: #ff9090;
+            background: rgba(150, 50, 50, 0.3);
+            border-color: rgba(255, 100, 100, 0.3);
+            color: rgba(255, 100, 100, 0.8);
         }
 
         .btn-delete:hover {
-            background: rgba(150, 50, 50, 0.7);
-            border-color: rgba(200, 100, 100, 0.7);
-            color: #ffb0b0;
+            background: rgba(150, 50, 50, 0.5);
+            border-color: rgba(255, 100, 100, 0.6);
+            color: #ff8888;
         }
 
         .empty-state {
             text-align: center;
-            color: #666;
-            padding: 30px 20px;
+            color: rgba(120, 130, 160, 0.6);
+            padding: 40px 20px;
             font-size: 1em;
         }
 
@@ -369,33 +457,47 @@
 
         .penalty-input-group input {
             flex: 1;
-            padding: 8px 10px;
-            background: rgba(20, 30, 50, 0.8);
-            border: 1px solid rgba(150, 150, 200, 0.4);
-            border-radius: 6px;
-            color: #e0e0e0;
+            padding: 9px 12px;
+            background: rgba(15, 20, 40, 0.7);
+            border: 1.5px solid rgba(100, 150, 255, 0.3);
+            border-radius: 7px;
+            color: #e0e0f0;
             font-size: 0.9em;
         }
 
         .penalty-input-group button {
-            padding: 8px 12px;
-            background: rgba(100, 150, 200, 0.6);
-            border: 1px solid rgba(150, 150, 200, 0.4);
-            color: #e0e0e0;
-            border-radius: 6px;
+            padding: 9px 14px;
+            background: linear-gradient(135deg, rgba(100, 150, 255, 0.6), rgba(150, 120, 255, 0.6));
+            border: 1px solid rgba(150, 150, 255, 0.5);
+            color: #e0e0f0;
+            border-radius: 7px;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.8em;
             transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .penalty-input-group button:hover {
-            background: rgba(100, 150, 200, 0.9);
-            border-color: rgba(150, 150, 200, 0.7);
+            background: linear-gradient(135deg, rgba(100, 180, 255, 0.8), rgba(180, 120, 255, 0.8));
+            box-shadow: 0 0 12px rgba(100, 150, 255, 0.3);
+        }
+
+        .penalty-status-text {
+            color: #ff6b6b;
+            font-weight: 700;
+            font-size: 1em;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
+    <!-- Animated background orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -417,9 +519,8 @@
                     type="number" 
                     id="breakCount" 
                     class="input-field" 
-                    placeholder="Rules Broken (1-4)" 
-                    min="1" 
-                    max="4"
+                    placeholder="Rules Broken (1+)" 
+                    min="1"
                 >
                 <button class="btn" onclick="addMember()">Add</button>
             </div>
@@ -427,7 +528,7 @@
                 type="text" 
                 id="rulesBroken" 
                 class="input-field" 
-                placeholder="Rules broken (e.g., Spam, Harassment) - separate with commas"
+                placeholder="Rules broken (e.g., Spam, Harassment, Toxicity) - separate with commas"
                 style="grid-column: 1 / -1;"
             >
         </div>
@@ -459,7 +560,7 @@
             if (count === 1) return { level: 'safe', text: 'Caution' };
             if (count === 2) return { level: 'warning', text: 'High Alert' };
             if (count === 3) return { level: 'danger', text: 'Critical' };
-            if (count === MAX_BREAKS) return { level: 'voting', text: 'Awaiting Penalty' };
+            if (count >= MAX_BREAKS) return { level: 'voting', text: 'Awaiting Penalty' };
             return { level: 'safe', text: 'Safe' };
         }
 
@@ -468,7 +569,7 @@
             if (count === 1) return 'level-1';
             if (count === 2) return 'level-2';
             if (count === 3) return 'level-3';
-            if (count === MAX_BREAKS) return 'level-4';
+            if (count >= MAX_BREAKS) return 'level-4';
             return 'level-1';
         }
 
@@ -485,8 +586,8 @@
             const member = {
                 id: Date.now(),
                 name: name,
-                breaks: Math.min(count, MAX_BREAKS),
-                rules: rules ? rules.split(',').map(r => r.trim()) : [],
+                breaks: Math.max(1, count),
+                rules: rules ? rules.split(',').map(r => r.trim()).filter(r => r) : [],
                 penaltyType: null,
                 banDays: null
             };
@@ -502,9 +603,8 @@
         function updateBreaks(id, newCount) {
             const member = members.find(m => m.id === id);
             if (member) {
-                member.breaks = Math.max(1, Math.min(newCount, MAX_BREAKS));
-                member.penaltyType = null;
-                member.banDays = null;
+                member.breaks = Math.max(1, newCount);
+                // Keep penalty type and ban days when updating breaks
                 saveMembers();
                 render();
             }
@@ -512,7 +612,7 @@
 
         function setPenaltyType(id, type) {
             const member = members.find(m => m.id === id);
-            if (member && member.breaks === MAX_BREAKS) {
+            if (member && member.breaks >= MAX_BREAKS) {
                 member.penaltyType = type;
                 if (type === 'voting') {
                     member.banDays = null;
@@ -534,7 +634,6 @@
         function setMercy(id) {
             const member = members.find(m => m.id === id);
             if (member) {
-                member.breaks = 0;
                 member.penaltyType = 'mercy';
                 member.banDays = null;
                 saveMembers();
@@ -561,11 +660,11 @@
                 const strikeLevel = getStrikeLevel(member.breaks, member.penaltyType);
                 let penaltySection = '';
 
-                if (member.breaks === MAX_BREAKS && !member.penaltyType) {
+                if (member.breaks >= MAX_BREAKS && !member.penaltyType) {
                     penaltySection = `
                         <div class="penalty-toggle">
                             <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'voting')">Penalty (Voting)</button>
-                            <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'kicked')">True Penalty</button>
+                            <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'kicked')">Death Penalty</button>
                         </div>
                     `;
                 } else if (member.penaltyType === 'voting') {
@@ -573,7 +672,7 @@
                         <div class="status voting">Penalty (Voting)</div>
                         <div class="penalty-toggle">
                             <button class="toggle-btn active">Penalty (Voting)</button>
-                            <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'kicked')">Change to True Penalty</button>
+                            <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'kicked')">Change to Death Penalty</button>
                         </div>
                         <div class="card-actions" style="margin-top: 10px;">
                             <button class="btn-small" onclick="setMercy(${member.id})">At Our Mercy</button>
@@ -583,13 +682,13 @@
                     penaltySection = `
                         <div class="penalty-toggle">
                             <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'voting')">Change to Voting</button>
-                            <button class="toggle-btn active">True Penalty</button>
+                            <button class="toggle-btn active">Death Penalty</button>
                         </div>
                         <div class="penalty-input-group">
                             <input type="number" id="banDays-${member.id}" value="${member.banDays || 7}" min="1" placeholder="Ban days">
                             <button onclick="setBanDays(${member.id}, document.getElementById('banDays-${member.id}').value)">Set</button>
                         </div>
-                        ${member.banDays ? `<div class="status banished">Death Penalty: ${member.banDays} Days</div>` : ''}
+                        ${member.banDays ? `<div class="penalty-status-text">Death Penalty: ${member.banDays} Days</div>` : ''}
                     `;
                 } else if (member.penaltyType === 'mercy') {
                     penaltySection = `<div class="status mercy">They're at Our Mercy</div>`;
@@ -610,8 +709,8 @@
                         ` : ''}
                         ${penaltySection}
                         <div class="card-actions">
-                            <button class="btn-small" onclick="updateBreaks(${member.id}, ${member.breaks - 1})" ${member.breaks === 1 ? 'disabled' : ''}>-</button>
-                            <button class="btn-small" onclick="updateBreaks(${member.id}, ${member.breaks + 1})" ${member.breaks === MAX_BREAKS ? 'disabled' : ''}>+</button>
+                            <button class="btn-small" onclick="updateBreaks(${member.id}, ${member.breaks - 1})">-</button>
+                            <button class="btn-small" onclick="updateBreaks(${member.id}, ${member.breaks + 1})">+</button>
                             <button class="btn-small btn-delete" onclick="deleteMember(${member.id})">Delete</button>
                         </div>
                     </div>
