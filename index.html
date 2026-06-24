@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soflare - Rule Breaker Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #2d1b4e 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated stars background */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .star {
+            position: fixed;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: twinkle 3s infinite;
+        }
+
+        /* Bee accent */
+        .bee-deco {
+            position: fixed;
+            font-size: 30px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            z-index: 10;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .header-subtitle {
+            font-size: 1.2em;
+            color: #87ceeb;
+            opacity: 0.9;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: rgba(20, 30, 60, 0.8);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .form-title {
+            color: #ffd700;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .form-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-field {
+            background: rgba(10, 14, 39, 0.6);
+            border: 2px solid #87ceeb;
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            background: rgba(10, 14, 39, 0.9);
+        }
+
+        .input-field::placeholder {
+            color: rgba(135, 206, 235, 0.5);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            color: #000;
+            transition: all 0.3s ease;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Members Grid */
+        .members-section {
+            margin-top: 40px;
+        }
+
+        .section-title {
+            color: #ffd700;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Member Card (Note Style) */
+        .member-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(135, 206, 235, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(255, 215, 0, 0.1));
+            pointer-events: none;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.3);
+            border-color: #ffd700;
+        }
+
+        .member-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .member-name {
+            color: #ffd700;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            word-break: break-word;
+        }
+
+        .strike-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .strike-count {
+            font-size: 2.5em;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 10px;
+            min-width: 80px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Color gradient for strike count */
+        .strike-count.level-0 {
+            background: linear-gradient(135deg, #00ff00, #00cc00);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+        }
+
+        .strike-count.level-1 {
+            background: #ffffff;
+            color: #000;
+            border: 2px solid #e0e0e0;
+        }
+
+        .strike-count.level-2 {
+            background: linear-gradient(135deg, #ff6b6b, #ff5252);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+        }
+
+        .strike-count.level-3 {
+            background: linear-gradient(135deg, #8b0000, #600000);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.6);
+        }
+
+        .strike-count.level-4 {
+            background: #000000;
+            color: #fff;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .strike-label {
+            color: rgba(135, 206, 235, 0.8);
+            font-size: 0.9em;
+        }
+
+        /* Status Indicator */
+        .status {
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status.safe {
+            background: rgba(34, 139, 34, 0.3);
+            color: #90ee90;
+            border: 1px solid #90ee90;
+        }
+
+        .status.warning {
+            background: rgba(255, 165, 0, 0.3);
+            color: #ffa500;
+            border: 1px solid #ffa500;
+        }
+
+        .status.danger {
+            background: rgba(220, 20, 60, 0.3);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+
+        .status.voting {
+            background: rgba(139, 69, 19, 0.3);
+            color: #daa520;
+            border: 1px solid #daa520;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status.mercy {
+            background: rgba(34, 139, 34, 0.3);
+            color: #90ee90;
+            border: 1px solid #90ee90;
+        }
+
+        .status.banished {
+            background: rgba(220, 20, 60, 0.4);
+            color: #ff1744;
+            border: 1px solid #ff1744;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .rules-broken {
+            color: rgba(135, 206, 235, 0.9);
+            font-size: 0.85em;
+            margin-bottom: 10px;
+            max-height: 60px;
+            overflow-y: auto;
+        }
+
+        .rule-item {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            border-left: 3px solid #ffd700;
+        }
+
+        /* Toggle Panel */
+        .penalty-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: 2px solid rgba(135, 206, 235, 0.5);
+            background: rgba(135, 206, 235, 0.1);
+            color: #87ceeb;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .toggle-btn.active {
+            background: #ffd700;
+            color: #000;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .toggle-btn:hover {
+            border-color: #ffd700;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-small {
+            flex: 1;
+            background: rgba(135, 206, 235, 0.2);
+            border: 1px solid #87ceeb;
+            color: #87ceeb;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85em;
+            transition: all 0.2s ease;
+        }
+
+        .btn-small:hover {
+            background: rgba(135, 206, 235, 0.4);
+            border-color: #ffd700;
+            color: #ffd700;
+        }
+
+        .btn-delete {
+            background: rgba(220, 20, 60, 0.2);
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .btn-delete:hover {
+            background: rgba(220, 20, 60, 0.4);
+            border-color: #ff1744;
+            color: #ff1744;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: rgba(135, 206, 235, 0.6);
+            padding: 40px 20px;
+            font-size: 1.1em;
+        }
+
+        /* Empty message */
+        .no-members {
+            grid-column: 1 / -1;
+        }
+
+        .penalty-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .penalty-input-group input {
+            flex: 1;
+            padding: 8px 12px;
+            background: rgba(10, 14, 39, 0.6);
+            border: 1px solid #87ceeb;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.9em;
+        }
+
+        .penalty-input-group button {
+            padding: 8px 15px;
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid #ffd700;
+            color: #ffd700;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .penalty-input-group button:hover {
+            background: #ffd700;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background stars -->
+    <div id="starsContainer"></div>
+
+    <!-- Bee decorations -->
+    <div class="bee-deco" style="top: 10%; left: 5%;">🐝</div>
+    <div class="bee-deco" style="top: 20%; right: 8%;">🐝</div>
+    <div class="bee-deco" style="bottom: 15%; left: 10%;">🐝</div>
+    <div class="bee-deco" style="bottom: 25%; right: 5%;">🐝</div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>✨ SOFLARE ✨</h1>
+            <p class="header-subtitle">Rule Breaker Tracker 🐝</p>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-section">
+            <div class="form-title">📝 Add Member</div>
+            <div class="form-group">
+                <input 
+                    type="text" 
+                    id="memberName" 
+                    class="input-field" 
+                    placeholder="Member Name"
+                >
+                <input 
+                    type="number" 
+                    id="breakCount" 
+                    class="input-field" 
+                    placeholder="Rules Broken (1-4)" 
+                    min="1" 
+                    max="4"
+                >
+                <button class="btn" onclick="addMember()">Add Member</button>
+            </div>
+            <input 
+                type="text" 
+                id="rulesBroken" 
+                class="input-field" 
+                placeholder="Rules (e.g., Spam, Harassment) - separate with commas"
+                style="grid-column: 1 / -1;"
+            >
+        </div>
+
+        <!-- Members Display -->
+        <div class="members-section">
+            <div class="section-title">👥 Members Overview</div>
+            <div class="members-grid" id="membersGrid">
+                <div class="no-members empty-state">
+                    No members yet. Add one to get started! 🚀
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize from localStorage
+        let members = JSON.parse(localStorage.getItem('soflaremembers')) || [];
+        const MAX_BREAKS = 4;
+
+        function saveMembers() {
+            localStorage.setItem('soflaremembers', JSON.stringify(members));
+        }
+
+        function getStatus(count, voteStatus) {
+            if (voteStatus === 'mercy') return { level: 'mercy', text: '💜 At Our Mercy' };
+            if (voteStatus === 'banned') return { level: 'banished', text: '⚰️ Banished' };
+            
+            if (count === 1) return { level: 'safe', text: '⚠️ Caution' };
+            if (count === 2) return { level: 'warning', text: '🔴 High Alert' };
+            if (count === 3) return { level: 'danger', text: '🚨 Critical' };
+            if (count === MAX_BREAKS) return { level: 'voting', text: '⚖️ Awaiting Penalty' };
+            return { level: 'safe', text: '✅ Safe' };
+        }
+
+        function getStrikeLevel(count, voteStatus) {
+            if (voteStatus === 'mercy') return 'level-0';
+            if (count === 1) return 'level-1';
+            if (count === 2) return 'level-2';
+            if (count === 3) return 'level-3';
+            if (count === MAX_BREAKS) return 'level-4';
+            return 'level-1';
+        }
+
+        function addMember() {
+            const name = document.getElementById('memberName').value.trim();
+            const count = parseInt(document.getElementById('breakCount').value) || 1;
+            const rules = document.getElementById('rulesBroken').value.trim();
+
+            if (!name) {
+                alert('Please enter a member name');
+                return;
+            }
+
+            const member = {
+                id: Date.now(),
+                name: name,
+                breaks: Math.min(count, MAX_BREAKS),
+                rules: rules ? rules.split(',').map(r => r.trim()) : [],
+                penaltyType: null, // 'voting' or 'kicked'
+                banDays: null
+            };
+
+            members.push(member);
+            saveMembers();
+            render();
+            document.getElementById('memberName').value = '';
+            document.getElementById('breakCount').value = '';
+            document.getElementById('rulesBroken').value = '';
+        }
+
+        function updateBreaks(id, newCount) {
+            const member = members.find(m => m.id === id);
+            if (member) {
+                member.breaks = Math.max(1, Math.min(newCount, MAX_BREAKS));
+                member.penaltyType = null;
+                member.banDays = null;
+                saveMembers();
+                render();
+            }
+        }
+
+        function setPenaltyType(id, type) {
+            const member = members.find(m => m.id === id);
+            if (member && member.breaks === MAX_BREAKS) {
+                member.penaltyType = type;
+                if (type === 'voting') {
+                    member.banDays = null;
+                }
+                saveMembers();
+                render();
+            }
+        }
+
+        function setBanDays(id, days) {
+            const member = members.find(m => m.id === id);
+            if (member && member.penaltyType === 'kicked') {
+                member.banDays = parseInt(days) || 7;
+                saveMembers();
+                render();
+            }
+        }
+
+        function setMercy(id) {
+            const member = members.find(m => m.id === id);
+            if (member) {
+                member.breaks = 0;
+                member.penaltyType = 'mercy';
+                member.banDays = null;
+                saveMembers();
+                render();
+            }
+        }
+
+        function deleteMember(id) {
+            members = members.filter(m => m.id !== id);
+            saveMembers();
+            render();
+        }
+
+        function render() {
+            const grid = document.getElementById('membersGrid');
+
+            if (members.length === 0) {
+                grid.innerHTML = '<div class="no-members empty-state">No members yet. Add one to get started! 🚀</div>';
+                return;
+            }
+
+            grid.innerHTML = members.map(member => {
+                const status = getStatus(member.breaks, member.penaltyType);
+                const strikeLevel = getStrikeLevel(member.breaks, member.penaltyType);
+                let penaltySection = '';
+
+                if (member.breaks === MAX_BREAKS && !member.penaltyType) {
+                    penaltySection = `
+                        <div class="penalty-toggle">
+                            <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'voting')">⚖️ Penalty (Voting)</button>
+                            <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'kicked')">☠️ True Penalty (Kicked)</button>
+                        </div>
+                    `;
+                } else if (member.penaltyType === 'voting') {
+                    penaltySection = `
+                        <div class="status voting">⚖️ PENALTY (VOTING)</div>
+                        <div class="penalty-toggle">
+                            <button class="toggle-btn active">⚖️ Penalty (Voting)</button>
+                            <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'kicked')">☠️ Change to True Penalty</button>
+                        </div>
+                        <div class="card-actions" style="margin-top: 10px;">
+                            <button class="btn-small" onclick="setMercy(${member.id})">💜 They're at Our Mercy</button>
+                        </div>
+                    `;
+                } else if (member.penaltyType === 'kicked') {
+                    penaltySection = `
+                        <div class="penalty-toggle">
+                            <button class="toggle-btn" onclick="setPenaltyType(${member.id}, 'voting')">⚖️ Change to Voting</button>
+                            <button class="toggle-btn active">☠️ True Penalty (Kicked)</button>
+                        </div>
+                        <div class="penalty-input-group">
+                            <input type="number" id="banDays-${member.id}" value="${member.banDays || 7}" min="1" placeholder="Ban days">
+                            <button onclick="setBanDays(${member.id}, document.getElementById('banDays-${member.id}').value)">Set Days</button>
+                        </div>
+                        ${member.banDays ? `<div class="status banished">☠️ DEATH PENALTY: ${member.banDays} DAYS</div>` : ''}
+                    `;
+                } else if (member.penaltyType === 'mercy') {
+                    penaltySection = `<div class="status mercy">💜 THEY'RE AT OUR MERCY</div>`;
+                }
+
+                return `
+                    <div class="member-card">
+                        <div class="member-content">
+                            <div class="member-name">👤 ${member.name}</div>
+                            <div class="strike-display">
+                                <span class="strike-count ${strikeLevel}">${member.breaks}</span>
+                                <span class="strike-label">Rule${member.breaks !== 1 ? 's' : ''} Broken</span>
+                            </div>
+                            <div class="status ${status.level}">${status.text}</div>
+                            ${member.rules.length > 0 ? `
+                                <div class="rules-broken">
+                                    ${member.rules.map(rule => `<div class="rule-item">📌 ${rule}</div>`).join('')}
+                                </div>
+                            ` : ''}
+                            ${penaltySection}
+                            <div class="card-actions">
+                                <button class="btn-small" onclick="updateBreaks(${member.id}, ${member.breaks - 1})" ${member.breaks === 1 ? 'disabled' : ''}>➖</button>
+                                <button class="btn-small" onclick="updateBreaks(${member.id}, ${member.breaks + 1})" ${member.breaks === MAX_BREAKS ? 'disabled' : ''}>➕</button>
+                                <button class="btn-small btn-delete" onclick="deleteMember(${member.id})">🗑️ Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Create animated stars
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = Math.random() * 3 + 'px';
+                star.style.height = star.style.width;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        createStars();
+        render();
+    </script>
+</body>
+</html>
